@@ -1,19 +1,31 @@
-"use strict";
-/// <reference path="lib/phaser.d.ts" />
-var SimpleGame = /** @class */ (function () {
-    function SimpleGame() {
-        this.game = new Phaser.Game(800, 600, Phaser.AUTO, 'content', { preload: this.preload, create: this.create });
-    }
-    SimpleGame.prototype.preload = function () {
-        this.game.load.image('logo', 'assets/baddie.png');
-    };
-    SimpleGame.prototype.create = function () {
-        var logo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'logo');
-        logo.anchor.setTo(0.5, 0.5);
-    };
-    return SimpleGame;
-}());
-window.onload = function () {
-    var game = new SimpleGame();
-};
-module.exports = SimpleGame;
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update })
+
+function preload () {
+    game.load.image('sky', 'assets/sky.png')
+    game.load.image('ground', 'assets/platform.png')
+    game.load.image('star', 'assets/star.png')
+    game.load.spritesheet('dude', 'assets/dude.png', 32, 48)
+}
+
+var platforms
+
+function create () {
+    game.physics.startSystem(Phaser.Physics.ARCADE)
+    game.add.sprite(0, 0, 'sky')
+    platforms = game.add.group()
+    platforms.enableBody = true
+    let ground = platforms.create(0, game.world.height - 64, 'ground')
+    ground.scale.setTo(2, 2)
+    ground.body.immovable = true
+
+    let ledge = platforms.create(400, 400, 'ground')
+    ledge.body.immovable = true
+    ledge = platforms.create(-150, 250, 'ground')
+    ledge.body.immovable = true
+    game.add.sprite(0, 0, 'star')
+
+}
+
+function update () {
+
+}
