@@ -11,6 +11,8 @@ var platforms
 var player
 var cursors
 var stars
+var score = 0
+var scoreText
 
 function create () {
     game.physics.startSystem(Phaser.Physics.ARCADE)
@@ -49,10 +51,14 @@ function create () {
 
     for (let i = 0; i < 12; i++) {
         let star = stars.create(i * 70, 0, 'star')
-        star.body.gravity.y = 6
+        star.body.gravity.y = 150
         star.body.bounce.y = 0.7 + Math.random() * 0.2
     }
 
+    // score
+    scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' })
+
+    // cursors
     cursors = game.input.keyboard.createCursorKeys()
 }
 
@@ -85,4 +91,7 @@ function update () {
 
 function collectStar (player, star) {
     star.kill()
+    score += 10
+    console.log('score: ', score)
+    scoreText.text = 'Score: ' + score
 }
